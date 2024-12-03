@@ -1,4 +1,4 @@
-package com.ferdeen.Journal.Application.JournalEntryRepo;
+package com.ferdeen.Journal.Application.Repo;
 
 import com.ferdeen.Journal.Application.Entity.JournalEntry;
 import org.bson.types.ObjectId;
