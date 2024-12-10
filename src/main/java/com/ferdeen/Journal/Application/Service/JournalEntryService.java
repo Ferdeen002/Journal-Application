@@ -30,20 +30,21 @@ public class JournalEntryService {
             JournalEntry saved = journalEntryRepo.save(journalEntry);
             user.getJournalEntries().add(saved);
 //            user.setUserName(null);
-            userService.save(user);
+            userService.saveUser(user);
         }catch (Exception e){
-            System.out.println(e);
             throw  new RuntimeException("An error has occured while saving the entry" , e);
         }
 
 
     }
     public void saveEntry(JournalEntry journalEntry){
+
         journalEntryRepo.save(journalEntry);
     }
     @GetMapping("getAllJournals")
     public List<JournalEntry> getall(){
-       return journalEntryRepo.findAll();
+       return
+               journalEntryRepo.findAll();
     }
 
     public Optional<JournalEntry> findbyId(ObjectId myid) {
@@ -53,7 +54,7 @@ public class JournalEntryService {
     public void deletebyId(ObjectId myid, String userName) {
      User user =   userService.findbyUserName(userName);
      user.getJournalEntries().removeIf(x -> x.getId().equals(myid));
-     userService.save(user);
+     userService.saveUser(user);
         journalEntryRepo.deleteById(myid);
     }
 
