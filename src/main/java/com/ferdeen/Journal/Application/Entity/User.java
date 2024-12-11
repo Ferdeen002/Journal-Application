@@ -1,5 +1,6 @@
 package com.ferdeen.Journal.Application.Entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -16,6 +17,7 @@ import java.util.List;
 @Document(collection = "user")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     private ObjectId id;
