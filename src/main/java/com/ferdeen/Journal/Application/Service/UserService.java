@@ -24,10 +24,18 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void saveNewUser(User user){
-       user.setPassword(passwordencoder.encode(user.getPassword()));
-       user.setRoles(Arrays.asList("USER"));
-       userRepository.save(user);
+    public boolean saveNewUser(User user){
+        try{
+            user.setPassword(passwordencoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+            return true;
+        }catch (Exception e){
+            System.out.println("Could not save user ");
+            System.out.println(e);
+            return false;
+        }
+
     }
 
     public void saveAdmin(User user){

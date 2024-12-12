@@ -54,20 +54,19 @@ public class JournalEntryController {
 
     }
 
-    @GetMapping("id/{myid}")
-    public ResponseEntity<?> searchbyID(@PathVariable ObjectId myid){
+    @GetMapping("id/{myId}")
+    public ResponseEntity<?> getJournalEntryById(@PathVariable ObjectId myId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         User user = userService.findbyUserName(userName);
-        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x->x.getId().equals(myid)).collect(Collectors.toList());
-        if(!collect.isEmpty()){
-            Optional<JournalEntry> journalEntry = journalEntryService.findbyId(myid);
-            if(journalEntry.isPresent() ){
-                return new ResponseEntity<>(journalEntry.get() , HttpStatus.OK);
+        List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
+        if (!collect.isEmpty()) {
+            Optional<JournalEntry> journalEntry = journalEntryService.findbyId(myId);
+            if (journalEntry.isPresent()) {
+                return new ResponseEntity<>(journalEntry.get(), HttpStatus.OK);
             }
-        } // error to be fixed.
-        return new ResponseEntity<>( HttpStatus.NOT_FOUND);
-
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
 
