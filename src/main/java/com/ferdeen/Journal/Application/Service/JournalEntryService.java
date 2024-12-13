@@ -4,6 +4,8 @@ import com.ferdeen.Journal.Application.Entity.JournalEntry;
 import com.ferdeen.Journal.Application.Entity.User;
 import com.ferdeen.Journal.Application.Repo.JournalEntryRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
         try{
@@ -32,6 +35,7 @@ public class JournalEntryService {
 //            user.setUserName(null);
             userService.saveUser(user);
         }catch (Exception e){
+
             throw  new RuntimeException("An error has occured while saving the entry" , e);
         }
 
