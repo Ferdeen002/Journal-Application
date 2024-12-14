@@ -4,6 +4,8 @@ import com.ferdeen.Journal.Application.Entity.JournalEntry;
 import com.ferdeen.Journal.Application.Entity.User;
 import com.ferdeen.Journal.Application.Repo.JournalEntryRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +24,7 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String userName){
         try{
@@ -30,31 +33,45 @@ public class JournalEntryService {
             JournalEntry saved = journalEntryRepo.save(journalEntry);
             user.getJournalEntries().add(saved);
 //            user.setUserName(null);
-            userService.save(user);
+            userService.saveUser(user);
         }catch (Exception e){
-            System.out.println(e);
+
             throw  new RuntimeException("An error has occured while saving the entry" , e);
         }
 
 
     }
     public void saveEntry(JournalEntry journalEntry){
+
         journalEntryRepo.save(journalEntry);
     }
     @GetMapping("getAllJournals")
     public List<JournalEntry> getall(){
-       return journalEntryRepo.findAll();
+       return
+               journalEntryRepo.findAll();
     }
 
     public Optional<JournalEntry> findbyId(ObjectId myid) {
         return journalEntryRepo.findById(myid);
     }
 
-    public void deletebyId(ObjectId myid, String userName) {
-     User user =   userService.findbyUserName(userName);
-     user.getJournalEntries().removeIf(x -> x.getId().equals(myid));
-     userService.save(user);
-        journalEntryRepo.deleteById(myid);
+    @Transactional
+    public boolean deletebyId(ObjectId myid, String userName) {
+        boolean removed = false;
+        try {
+            User user = userService.findbyUserName(userName);
+             removed = user.getJournalEntries().removeIf(x -> x.getId().equals(myid));
+            if (removed) {
+                userService.saveUser(user);
+                journalEntryRepo.deleteById(myid);
+            }
+        } catch (Exception e){
+            System.out.println(e);
+            throw  new RuntimeException("An error occured while saving the entry" , e);
+        }
+
+        return removed;
+
     }
 
 }

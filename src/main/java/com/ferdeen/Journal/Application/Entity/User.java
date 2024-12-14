@@ -1,8 +1,6 @@
 package com.ferdeen.Journal.Application.Entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -15,6 +13,8 @@ import java.util.List;
 
 @Document(collection = "user")
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class User {
     @Id
@@ -24,6 +24,7 @@ public class User {
     private String userName;
     @NonNull
     private String password;
+    private List<String> roles;
 
     @DBRef
     private List<JournalEntry> journalEntries = new ArrayList<>();
