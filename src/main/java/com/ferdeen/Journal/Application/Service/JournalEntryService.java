@@ -3,6 +3,7 @@ package com.ferdeen.Journal.Application.Service;
 import com.ferdeen.Journal.Application.Entity.JournalEntry;
 import com.ferdeen.Journal.Application.Entity.User;
 import com.ferdeen.Journal.Application.Repo.JournalEntryRepo;
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class JournalEntryService {
 
@@ -66,7 +68,7 @@ public class JournalEntryService {
                 journalEntryRepo.deleteById(myid);
             }
         } catch (Exception e){
-            System.out.println(e);
+            log.error("error saving " , e);
             throw  new RuntimeException("An error occured while saving the entry" , e);
         }
 

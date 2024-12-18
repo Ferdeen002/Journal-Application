@@ -17,8 +17,6 @@ public class WeatherResponse{
 
         private int temperature;
 
-
-
         @JsonProperty("weather_descriptions")
         private List<String> weatherDescriptions;
 
