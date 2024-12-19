@@ -1,5 +1,6 @@
 package com.ferdeen.Journal.Application.Entity;
 
+import com.ferdeen.Journal.Application.ENUM.Sentiment;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
@@ -25,6 +26,5 @@ public class JournalEntry {
     private String title;
     private String content;
     private LocalTime date;
-
-
+    private Sentiment sentiment;
 }

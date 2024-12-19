@@ -21,9 +21,13 @@ public class UserRepositoryImpl {
         Criteria criteria = new Criteria();
 
 //        query.addCriteria(Criteria.where("email").regex())
-        query.addCriteria(criteria.orOperator(Criteria.where("email").ne(null).ne(""),
-                Criteria.where("sentimentAnalysis").exists(true))
-        );
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+
+// Add criteria to the query
+        query.addCriteria(criteria.orOperator(
+                Criteria.where("email").regex(emailRegex), // Validate email format using regex
+                Criteria.where("sentimentAnalysis").exists(true)
+        ));
 ////        query.addCriteria(Criteria.where("userName").is("Vasanth"));
         List<User> users = mongoTemplate.find(query, User.class);
         return users;
