@@ -1,6 +1,7 @@
 package com.ferdeen.Journal.Application.Controller;
 
 
+import com.ferdeen.Journal.Application.Cache.AppCache;
 import com.ferdeen.Journal.Application.Entity.User;
 import com.ferdeen.Journal.Application.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AppCache appCache;
+
     @GetMapping("/all-users")
     public ResponseEntity<?> getAllUsers(){
         List<User> all = userService.getall();
@@ -30,5 +34,9 @@ public class AdminController {
     @PostMapping("create-admin-user")
     public void createUser(@RequestBody User user){
         userService.saveAdmin(user);
+    }
+    @GetMapping("clear-app-cache")
+    public void clearAppCache(){
+        appCache.init();
     }
 }
